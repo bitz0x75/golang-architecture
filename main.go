@@ -3,26 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/bitz0x75/golang-architecture/session"
 )
 
 func main() {
-	ctx := context.WithValue(context.Background(), "userID", 12345)
-	ctx = context.WithValue(ctx, 1, "admin")
-	if v := ctx.Value("userID"); v != nil {
-		fmt.Println(v)
-	} else {
-		fmt.Println("no value associated with that key")
-	}
+	ctx := context.Background()
+	ctx =session.SetUserID(ctx, 1)
+	ctx =session.SetAdmin(ctx, true)
+	i := session.GetUserID(ctx)
+	b := session.GetAdmin(ctx)
 
-	if v := ctx.Value(1); v != nil {
-		fmt.Println(v)
-	} else {
-		fmt.Println("no value associated with that key")
-	}
+	fmt.Println("User", i, "is admin?", b)
 
-	if v := ctx.Value(2); v != nil {
-		fmt.Println(v)
-	} else {
-		fmt.Println("no value associated with that key")
-	}
 }
